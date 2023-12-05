@@ -6,17 +6,35 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point_2;
 int main()
 {
-  Point_2 points[5] = { Point_2(0,0), Point_2(10,0), Point_2(10,10), Point_2(6,5), Point_2(4,1) };
-  Point_2 result[5];
-  Point_2 *ptr = CGAL::convex_hull_2( points, points+5, result );
-  std::cout <<  ptr - result << " points on the convex hull:" << std::endl;
-  for(int i = 0; i < ptr - result; i++){
+//   Point_2 points[5] = { Point_2(0,0), Point_2(10,0), Point_2(10,10), Point_2(6,8), Point_2(4,1) };
+  std::vector<Point_2> points;
+  points.push_back(Point_2(0,0));
+  points.push_back(Point_2(10,0));
+  points.push_back(Point_2(10,10));
+  points.push_back(Point_2(6,8));
+  points.push_back(Point_2(4,1));
+//   Point_2 result[5];
+  std::vector<Point_2> result;
+//   Point_2 *ptr = CGAL::convex_hull_2( points, points+5, result );
+  CGAL::convex_hull_2(points.begin(), points.end(), std::back_inserter(result));
+//   std::cout <<  ptr - result << " points on the convex hull:" << std::endl;
+    std::cout <<  result.size() << " points on the convex hull:" << std::endl;
+//   for(int i = 0; i < ptr - result; i++){
+//     std::cout << result[i] << std::endl;
+//   }
+  for(int i = 0; i < result.size(); i++){
     std::cout << result[i] << std::endl;
   }
   std::vector<double> pts_x;
   std::vector<double> pts_y;
-  size_t size = sizeof(points) / sizeof(Point_2);
-  for (size_t i = 0; i < size; i++)
+//   size_t size = sizeof(points) / sizeof(Point_2);
+//   for (size_t i = 0; i < size; i++)
+//   {
+//     pts_x.push_back(CGAL::to_double(points[i].x()));
+//     pts_y.push_back(CGAL::to_double(points[i].y()));
+//   }
+
+  for (size_t i = 0; i < points.size(); i++)
   {
     pts_x.push_back(CGAL::to_double(points[i].x()));
     pts_y.push_back(CGAL::to_double(points[i].y()));
@@ -24,7 +42,11 @@ int main()
 
   std::vector<double> convex_hull_x;
   std::vector<double> convex_hull_y;
-  for(int i = 0; i < ptr - result; i++){
+//   for(int i = 0; i < ptr - result; i++){
+//     convex_hull_x.push_back(CGAL::to_double(result[i].x()));
+//     convex_hull_y.push_back(CGAL::to_double(result[i].y()));
+//   }
+  for(int i = 0; i < result.size(); i++){
     convex_hull_x.push_back(CGAL::to_double(result[i].x()));
     convex_hull_y.push_back(CGAL::to_double(result[i].y()));
   }
@@ -39,7 +61,7 @@ int main()
   plt::xlabel("x/m");
   plt::ylabel("y/m");
   plt::title("convex hull");
-//   plt::legend();
+  plt::legend();
   plt::show();
   return 0;
 }
